@@ -1,0 +1,8 @@
+{
+  "name": "api-gateway-serverless-lambda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ludwing22/api-gateway-serverless-lambda.git",
+  "author": "Paulo Henrique Borges",
+  "license": "MIT"
+}
