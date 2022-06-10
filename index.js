@@ -1,5 +1,3 @@
-const init = () => {
+(async () => {
   console.log('Init')
-}
-
-init()
+})()
