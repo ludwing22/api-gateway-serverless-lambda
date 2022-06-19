@@ -4,5 +4,9 @@
   "main": "index.js",
   "repository": "https://github.com/ludwing22/api-gateway-serverless-lambda.git",
   "author": "Paulo Henrique Borges",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "serverless-http": "^2.7.0"
+  }
 }
