@@ -1,11 +1,13 @@
 service: aws-node-express-dynamodb-api
 
+# Definição como variável no nome da tabela no banco de dados
 custom:
   tableName: 'users-table-${sls:stage}'
 
 provider:
   name: aws
   runtime: nodejs14.x
+  #Configuações da Api gateway na AWS
   apiGateway:
     apiKeys:
       - name: "paid"
@@ -20,6 +22,7 @@ provider:
       throttle:
         burstLimit: 200
         rateLimit: 100
+  # Configuração das permissões de acesso para Lambda acessar o banco de dados
   iam:
     role:
       statements:
@@ -37,13 +40,17 @@ provider:
     USERS_TABLE: ${self:custom.tableName}
 
 functions:
+  # Foi configurado todos endpoints para que sejam gerados logs separados dentro do CloudWatch
   post_user:
     handler: handler.handler
+    # Configuração para que a Lambda responda a eventos do tipo HTTP
+    # Endpoint para cadastro do usuário
     events:
       - http:
           path: users 
           method: post
           private: true
+  # Configuração da função para obter informações do usuário
   get_user_by_id:
     handler: handler.handler
     events:
@@ -55,7 +62,7 @@ functions:
             parameters:
               paths:
                 userId: true
-      
+# Configuração da tabela do banco de dados utilizado
 resources:
   Resources:
     UsersTable:
@@ -67,7 +74,10 @@ resources:
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
+        # Configuração das capacidade de leitura e escrita do banco 
+        # (Diferente dos outros bancos, o custo é calculado por Leitura e escrita e não pela configuração do cluster)
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        # Obtem o nome da tabela definida como variável
         TableName: ${self:custom.tableName}
