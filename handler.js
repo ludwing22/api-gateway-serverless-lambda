@@ -18,15 +18,16 @@ app.get("/users/:userId", async function (req, res) {
   }
 
   try {
+    // Busca do usuário pelo Id
     const { Item } = await dynamoDbClient.get(params).promise()
     if (Item) {
       const { userId, name } = Item
 
-      console.log('Usuário criado com sucesso.')
+      console.log('Usuário encontrado com sucesso.')
 
       res.json({ userId, name })
     } else {
-      console.error('Usuário não encontrado.e')
+      console.error('Usuário não encontrado.')
       res
         .status(404)
         .json({ error: 'Não foi encontrado usuário com este id' })
@@ -56,6 +57,7 @@ app.post("/users", async function (req, res) {
   }
 
   try {
+    // Inserção de dados no banco
     await dynamoDbClient.put(params).promise()
     console.log('Usuário criado com sucesso.')
     res.json({ userId, name })

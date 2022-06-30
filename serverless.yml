@@ -1,6 +1,6 @@
 service: aws-node-express-dynamodb-api
 
-# Definição como variável no nome da tabela no banco de dados
+# Definição como variável de ambiente no nome da tabela no banco de dados
 custom:
   tableName: 'users-table-${sls:stage}'
 
@@ -9,19 +9,31 @@ provider:
   runtime: nodejs14.x
   #Configuações da Api gateway na AWS
   apiGateway:
+    # Configuração dos planos de uso da aplicação
+    # Chaves criadas, no caso pode ser os clientes
     apiKeys:
-      - name: "paid"
-        description: 'Plano pago'
-      - name: "premium"
-        description: 'Plano premium'
+      - free:
+        - freeTierKey
+      - paid:
+        - paidTier1
+        - paidTier2
     usagePlan:
-      quota:
-        limit: 5
-        offset: 2
-        period: MONTH
-      throttle:
-        burstLimit: 200
-        rateLimit: 100
+      - free:
+          quota:
+            limit: 5
+            offset: 2
+            period: MONTH
+          throttle:
+            burstLimit: 200
+            rateLimit: 100
+      - paid: 
+          quota:
+            limit: 50
+            offset: 20
+            period: MONTH
+          throttle:
+            burstLimit: 200
+            rateLimit: 100
   # Configuração das permissões de acesso para Lambda acessar o banco de dados
   iam:
     role:
