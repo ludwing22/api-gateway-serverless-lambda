@@ -1,1 +1,1 @@
-sls deploy --stage "dev" --config serverless.yml 
+sls deploy --stage "dev" --config serverless.yml

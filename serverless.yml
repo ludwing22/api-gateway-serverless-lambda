@@ -14,6 +14,7 @@ provider:
     apiKeys:
       - free:
         - freeTierKey
+        - clienteAula
       - paid:
         - paidTier1
         - paidTier2
